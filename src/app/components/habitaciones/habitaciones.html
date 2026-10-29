@@ -1,0 +1,54 @@
+<section class="seccion oscuro habitaciones">
+  <div class="container">
+    <ng-content select="[encabezado]" />
+    @if (criterio(); as c) {
+      <div class="filtro" role="status">
+        <app-icon name="calendario" [size]="18" />
+        <span>
+          Disponibles del <strong>{{ c.llegada | date: 'd MMM' }}</strong> al
+          <strong>{{ c.salida | date: 'd MMM' }}</strong> para
+          <strong>{{ huespedes(c) }} {{ huespedes(c) === 1 ? 'huésped' : 'huéspedes' }}</strong>
+        </span>
+        <button type="button" class="filtro__limpiar" (click)="limpiar.emit()">Ver todas</button>
+      </div>
+    }
+
+    <div class="grid">
+      @for (h of habitaciones(); track h.id) {
+        <article class="card" [appRevelar]="$index * 150">
+          <div class="card__foto">
+            @if (h.imagen) {
+              <img class="foto" [src]="h.imagen" [alt]="h.nombre" loading="lazy" />
+            } @else {
+              <div class="foto-vacia en-oscuro"><app-icon name="imagen" [size]="22" /> Foto</div>
+            }
+            <span class="card__precio">
+              @if (h.precio !== null) {
+                S/ {{ h.precio }} <small>/ noche</small>
+              } @else {
+                Consultar tarifa
+              }
+            </span>
+          </div>
+
+          <div class="card__cuerpo">
+            <span class="card__tipo">{{ h.tipo }} · {{ h.capacidad }} {{ h.capacidad === 1 ? 'huésped' : 'huéspedes' }}</span>
+            <h3 class="card__nombre">{{ h.nombre }}</h3>
+            <p class="card__texto">{{ h.descripcion }}</p>
+            <div class="card__linea"></div>
+            <div class="card__acciones">
+              <a routerLink="/contacto" class="btn btn--caramelo">Reservar</a>
+              <button type="button" class="btn btn--borde-dorado" (click)="verTour.emit(h)">
+                <app-icon name="giro360" [size]="18" /> Recorrido 360°
+              </button>
+            </div>
+          </div>
+        </article>
+      } @empty {
+        <p class="vacio">
+          No hay habitaciones para esa cantidad de huéspedes. Escríbenos y te ayudamos a armar tu estadía.
+        </p>
+      }
+    </div>
+  </div>
+</section>

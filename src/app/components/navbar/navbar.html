@@ -1,0 +1,32 @@
+<nav class="nav" aria-label="Principal">
+  <div class="container nav__fila">
+    <a routerLink="/" class="nav__logo" (click)="cerrar()">
+      <img src="assets/img/logo.png" alt="Faraón Class Hotel" width="148" height="60">
+    </a>
+
+    <button
+      type="button"
+      class="nav__toggle"
+      [attr.aria-expanded]="abierto()"
+      aria-controls="menu-principal"
+      [attr.aria-label]="abierto() ? 'Cerrar menú' : 'Abrir menú'"
+      (click)="alternar()">
+      <app-icon [name]="abierto() ? 'cerrar' : 'menu'" [size]="26" />
+    </button>
+
+    <div id="menu-principal" class="nav__menu" [class.abierto]="abierto()">
+      @for (enlace of enlaces; track enlace.ruta) {
+        <a
+          [routerLink]="enlace.ruta"
+          routerLinkActive="activo"
+          [routerLinkActiveOptions]="opcionesActivo"
+          ariaCurrentWhenActive="page"
+          class="nav__enlace"
+          (click)="cerrar()">{{ enlace.texto }}</a>
+      }
+      <a routerLink="/" fragment="reservar" class="btn btn--oscuro" (click)="cerrar()">
+        Reservar <app-icon name="flecha" [size]="14" [trazo]="2" />
+      </a>
+    </div>
+  </div>
+</nav>

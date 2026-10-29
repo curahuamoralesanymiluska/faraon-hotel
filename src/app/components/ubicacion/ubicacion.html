@@ -1,0 +1,37 @@
+<section class="seccion ubicacion">
+  <div class="container">
+    <ng-content select="[encabezado]" />
+    <div class="tarjeta" appRevelar>
+      <div class="tarjeta__info">
+        <div class="macron"></div>
+        <h2 class="titulo">Encuéntranos <em class="oro-brillo">fácilmente</em></h2>
+
+        <p class="direccion">
+          <app-icon name="ubicacion" [size]="20" [trazo]="1.6" />
+          <span>{{ hotel.direccion }}<br />{{ hotel.distrito }}</span>
+        </p>
+
+        <ul class="distancias">
+          @for (d of hotel.distancias; track d.lugar) {
+            <li>
+              <span>{{ d.lugar }}</span>
+              <strong>{{ d.tiempo }}</strong>
+            </li>
+          }
+        </ul>
+
+        <a [href]="hotel.comoLlegarUrl" target="_blank" rel="noopener" class="btn btn--oscuro">
+          Cómo llegar <app-icon name="flecha" [size]="14" [trazo]="2" />
+        </a>
+      </div>
+
+      <div class="tarjeta__mapa">
+        <iframe
+          [src]="mapa"
+          title="Mapa de ubicación de Faraón Class Hotel"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+</section>

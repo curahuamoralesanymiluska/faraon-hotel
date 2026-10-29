@@ -1,0 +1,155 @@
+.habitaciones { background: var(--espresso-2); }
+
+/* Aviso de la búsqueda activa */
+.filtro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  padding: 14px 18px;
+  border: 1px solid var(--borde-oscuro);
+  border-radius: var(--radio-sm);
+  color: var(--texto-claro);
+  font-size: 14px;
+
+  app-icon { color: var(--dorado); }
+  strong { color: #fff; font-weight: 600; }
+}
+
+.filtro__limpiar {
+  margin-left: auto;
+  min-height: 44px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: var(--dorado);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 28px;
+}
+
+/* ---------- Card ---------- */
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--borde-oscuro);
+  border-radius: var(--radio-md);
+  background: var(--espresso);
+  transition:
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 0.9s ease,
+    filter 0.9s ease,
+    border-color 0.5s ease,
+    box-shadow 0.5s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    border-color: rgba(247, 212, 142, 0.6);
+    box-shadow: 0 0 0 1px rgba(247, 212, 142, 0.25), 0 24px 60px -24px rgba(196, 120, 42, 0.55);
+
+    .foto { transform: scale(1.06); }
+  }
+}
+
+.card__foto {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+
+  > .foto-vacia { height: 100%; }
+  .foto { transition: transform 0.8s ease; }
+
+  /* Reflejo de oro que cruza la foto al pasar el mouse */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 30%, rgba(247, 212, 142, 0.35) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 1.1s ease;
+    pointer-events: none;
+  }
+}
+
+.card:hover .card__foto::after { transform: translateX(120%); }
+
+.card__precio {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--dorado);
+  color: var(--espresso);
+  z-index: 1;
+  font-size: 12px;
+  font-weight: 600;
+
+  small { font-weight: 500; font-size: 11px; }
+}
+
+.card__cuerpo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 26px;
+}
+
+.card__tipo {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--dorado);
+}
+
+.card__nombre {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.05;
+  color: #fff;
+}
+
+.card__texto {
+  margin: 0;
+  font-size: 14px;
+  color: var(--texto-claro);
+}
+
+.card__linea {
+  height: 1px;
+  margin: 8px 0;
+  background: var(--borde-oscuro);
+}
+
+.card__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: auto;
+
+  .btn {
+    flex: 1 1 140px;
+    padding-left: 16px;
+    padding-right: 16px;
+    letter-spacing: 0.12em;
+  }
+}
+
+.vacio {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--texto-claro);
+}

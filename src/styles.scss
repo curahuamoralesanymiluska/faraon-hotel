@@ -1,0 +1,244 @@
+/* ==========================================================
+   Faraón Class Hotel · Estilos globales
+   Paleta tomada del logo + dos tonos de apoyo (crema y café)
+   ========================================================== */
+
+:root {
+  --caramelo: #C4782A;          // color principal del logo
+  --caramelo-oscuro: #9A5A1C;   // para texto pequeño (mejor contraste)
+  --dorado: #F7D48E;            // acento claro del logo
+  --crema: #FBF6EE;             // fondo general
+  --crema-2: #F3EADB;           // fondo de secciones alternas
+  --espresso: #2B1D12;          // texto y fondos oscuros
+  --espresso-2: #1E140C;        // fondo más profundo
+  --cafe: #4A3220;              // espacios de foto en fondo oscuro
+  --texto-suave: #5C4A3A;
+  --texto-claro: #E8D9C3;
+  --borde: #EADCC6;
+  --borde-oscuro: rgba(247, 212, 142, 0.2);
+
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Montserrat', system-ui, sans-serif;
+
+  --radio-sm: 10px;
+  --radio-md: 18px;
+  --radio-lg: 24px;
+  --sombra: 0 30px 60px -36px rgba(43, 29, 18, 0.35);
+  --nav-alto: 80px;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--crema);
+  color: var(--espresso);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; }
+
+section[id], [id].ancla { scroll-margin-top: var(--nav-alto); }
+
+:focus-visible {
+  outline: 2px solid var(--caramelo);
+  outline-offset: 3px;
+}
+
+/* ---------- Layout ---------- */
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.seccion { padding: 96px 0; }
+
+@media (max-width: 720px) {
+  .seccion { padding: 64px 0; }
+}
+
+/* ---------- Tipografía ---------- */
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--caramelo-oscuro);
+}
+
+.macron {
+  width: 44px;
+  height: 3px;
+  background: var(--caramelo);
+}
+
+.titulo {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.05;
+
+  em {
+    font-style: italic;
+    color: var(--caramelo);
+  }
+}
+
+.encabezado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  margin-bottom: 52px;
+}
+
+/* Variante para fondos oscuros */
+.oscuro {
+  color: #fff;
+
+  .macron { background: var(--dorado); }
+  .eyebrow { color: var(--dorado); }
+  .titulo { color: #F3E9DA; font-weight: 500; }
+  .titulo em { color: var(--dorado); }
+}
+
+/* ---------- Botones ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 14px 26px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+
+  &:hover { transform: translateY(-2px); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+}
+
+.btn--dorado { background: var(--dorado); color: var(--espresso); }
+.btn--dorado:hover { background: #fff; }
+
+.btn--caramelo { background: var(--caramelo); color: var(--espresso); }
+.btn--caramelo:hover { background: var(--dorado); }
+
+.btn--oscuro { background: var(--espresso); color: var(--dorado); }
+.btn--oscuro:hover { background: var(--caramelo-oscuro); color: #fff; }
+
+.btn--borde-dorado { border-color: var(--dorado); color: var(--dorado); background: transparent; }
+.btn--borde-dorado:hover { background: var(--dorado); color: var(--espresso); }
+
+/* ---------- Espacio para foto (mientras no haya imagen real) ---------- */
+.foto-vacia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #E9D9BF;
+  color: #8A6A45;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+
+  &.en-oscuro { background: var(--cafe); color: #B89A74; }
+}
+
+.foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Formularios ---------- */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ==========================================================
+   Efectos con temática de faraón
+   ========================================================== */
+
+/* Emerger de la arena (directiva appRevelar) */
+.revelar {
+  opacity: 0;
+  transform: translateY(32px);
+  filter: blur(6px);
+  transition:
+    opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.9s ease;
+}
+
+.revelar.visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* Oro que brilla: un reflejo de luz recorre el texto.
+   En fondos claros usa un oro más profundo para que siempre se lea. */
+.oro-brillo {
+  padding-right: 0.08em;
+  background: linear-gradient(100deg, #9A5A1C 0%, #C4782A 30%, #E0A04A 45%, #C4782A 60%, #9A5A1C 100%);
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  animation: brillo-oro 7s ease-in-out infinite;
+}
+
+.oscuro .oro-brillo {
+  background-image: linear-gradient(100deg, #C4782A 0%, #F7D48E 28%, #FFF6DD 44%, #F7D48E 60%, #C4782A 100%);
+}
+
+@keyframes brillo-oro {
+  0%, 100% { background-position: 100% 0; }
+  50% { background-position: 0% 0; }
+}
+
+/* Sin animaciones: la clase la pone app.ts según src/app/data/efectos.config.ts */
+html.menos-movimiento {
+  scroll-behavior: auto;
+
+  .revelar { opacity: 1; transform: none; filter: none; }
+  .oro-brillo { background-position: 50% 0; }
+
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}

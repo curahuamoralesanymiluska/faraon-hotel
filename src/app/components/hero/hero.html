@@ -1,0 +1,84 @@
+<header id="inicio" class="hero oscuro">
+  @if (hotel.heroImagen) {
+    <img class="hero__fondo" [src]="hotel.heroImagen" alt="" />
+  } @else {
+    <div class="hero__fondo hero__fondo--vacio">
+      <app-icon name="imagen" [size]="16" /> Foto de fondo: habitación con luz cálida
+    </div>
+  }
+  <div class="hero__velo"></div>
+  <app-polvo-dorado [densidad]="7" />
+
+  <div class="container hero__contenido">
+    <span class="eyebrow">Class Hotel · {{ hotel.ciudad }}</span>
+    <h1 class="hero__titulo">Descansa como un <em class="oro-brillo">faraón</em></h1>
+    <p class="hero__texto">
+      Comodidad, elegancia y atención cercana en cada detalle de tu estadía.
+    </p>
+    <div class="hero__acciones">
+      <a routerLink="/" fragment="reservar" class="btn btn--dorado">Reserva tu estadía</a>
+      <a routerLink="/habitaciones" class="btn btn--borde-dorado">Ver habitaciones</a>
+    </div>
+
+    <!-- Barra de reserva -->
+    <form id="reservar" class="reserva ancla" [formGroup]="form" (ngSubmit)="enviar()" novalidate>
+      <label class="campo">
+        Llegada
+        <input type="date" formControlName="llegada" [min]="hoy" />
+      </label>
+      <label class="campo">
+        Salida
+        <input type="date" formControlName="salida" [min]="form.controls.llegada.value" />
+      </label>
+      <label class="campo campo--corto">
+        Adultos
+        <select formControlName="adultos">
+          @for (n of adultos; track n) {
+            <option [value]="n">{{ n }}</option>
+          }
+        </select>
+      </label>
+      <label class="campo campo--corto">
+        Niños
+        <select formControlName="ninos">
+          @for (n of ninos; track n) {
+            <option [value]="n">{{ n }}</option>
+          }
+        </select>
+      </label>
+      <button type="submit" class="btn btn--caramelo reserva__boton">Ver disponibilidad</button>
+
+      @if (form.hasError('fechas') && form.touched) {
+        <p class="reserva__error" role="alert">La fecha de salida debe ser posterior a la de llegada.</p>
+      }
+    </form>
+  </div>
+
+  <!-- Franja de datos -->
+  <div class="franja">
+    <div class="container franja__grid">
+      <div class="dato">
+        <span class="dato__icono"><app-icon name="reloj" [size]="22" /></span>
+        <div>
+          <span class="dato__titulo">Check-in / Check-out</span>
+          <span class="dato__texto">{{ hotel.checkIn }} / {{ hotel.checkOut }}</span>
+        </div>
+      </div>
+      <div class="dato">
+        <span class="dato__icono"><app-icon name="ubicacion" [size]="22" /></span>
+        <div>
+          <span class="dato__titulo">Ubicación</span>
+          <span class="dato__texto">{{ hotel.direccion }}</span>
+        </div>
+      </div>
+      <div class="dato">
+        <span class="dato__icono"><app-icon name="telefono" [size]="22" /></span>
+        <div>
+          <span class="dato__titulo">Atención 24 h</span>
+          <span class="dato__texto">{{ hotel.telefono }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<app-friso />

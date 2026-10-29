@@ -1,0 +1,27 @@
+<div class="fondo" (click)="cerrar.emit()"></div>
+
+<div class="modal" role="dialog" aria-modal="true" aria-labelledby="tour-titulo">
+  <div class="modal__cabecera">
+    <div>
+      <span class="modal__eyebrow">Recorrido 360°</span>
+      <h2 id="tour-titulo" class="modal__titulo">{{ habitacion().nombre }}</h2>
+    </div>
+    <button #botonCerrar type="button" class="modal__cerrar" aria-label="Cerrar recorrido" (click)="cerrar.emit()">
+      <app-icon name="cerrar" [size]="22" />
+    </button>
+  </div>
+
+  <div class="modal__marco">
+    @if (habitacion().panorama) {
+      <div #visor class="visor"></div>
+    } @else {
+      <div class="visor visor--vacio">
+        <app-icon name="giro360" [size]="48" [trazo]="1.2" />
+        <p>El recorrido 360° de esta habitación estará disponible pronto.</p>
+        <small>Agrega la foto 360° en <code>panorama</code> dentro de <code>hotel.data.ts</code>.</small>
+      </div>
+    }
+  </div>
+
+  <p class="modal__ayuda">Arrastra para mirar alrededor · Usa la rueda o los botones para acercar</p>
+</div>
