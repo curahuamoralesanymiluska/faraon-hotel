@@ -70,13 +70,13 @@ src/app/
 
 ## Efectos animados
 
-Polvo dorado, intro con pirámide, brillo de oro en los títulos, friso egipcio y aparición al hacer scroll.
+Polvo dorado, intro con el logo del hotel, brillo de oro en los títulos, friso egipcio y aparición al hacer scroll.
 Se controlan en `src/app/data/efectos.config.ts`:
 
 - `respetarMovimientoReducido: false` → los efectos se ven siempre (valor actual).
 - `respetarMovimientoReducido: true` → se apagan si el visitante desactivó las animaciones en su sistema.
 
-La intro aparece una vez por visita; para verla de nuevo, abre la página en una pestaña nueva.
+- `introUnaVezPorPestana: false` → la intro con el logo sale cada vez que se abre o recarga la página (valor actual); con `true` sale solo una vez por pestaña.
 
 ## Siguiente paso: conectar con Spring Boot
 

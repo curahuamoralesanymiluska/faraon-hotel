@@ -1,26 +1,30 @@
 import { ChangeDetectionStrategy, Component, afterNextRender, signal } from '@angular/core';
-import { menosMovimiento } from '../../data/efectos.config';
+import { EFECTOS, menosMovimiento } from '../../data/efectos.config';
+import { PolvoDorado } from './polvo-dorado';
 
 const CLAVE = 'faraon-intro-vista';
+const LOGO = 'assets/img/logo-dorado.png';
 
 /**
- * Presentación de entrada: una pirámide dorada se dibuja, sale el sol sobre ella
- * y aparece el nombre del hotel. Se muestra una sola vez por visita.
- * Un clic la salta, y no aparece si el usuario pidió menos movimiento.
+ * Presentación de entrada con el logo del hotel:
+ * el logo se descubre de izquierda a derecha, un reflejo de luz lo recorre
+ * y queda brillando entre polvo dorado. Sale al abrir o recargar la página
+ * (ver data/efectos.config.ts) y un clic la salta.
  */
 @Component({
   selector: 'app-intro-faraon',
+  imports: [PolvoDorado],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (estado() !== 'oculta') {
       <div class="intro" [class.saliendo]="estado() === 'saliendo'" (click)="cerrar()" aria-hidden="true">
-        <svg class="piramide" viewBox="0 0 200 150" fill="none">
-          <circle class="sol" cx="100" cy="34" r="12" />
-          <path class="trazo" d="M10 140 L100 50 L190 140 Z" />
-          <path class="trazo trazo--interior" d="M55 95 H145 M33 117 H167 M100 50 V140" />
-        </svg>
-        <span class="nombre">Faraōn</span>
-        <span class="sub">Class Hotel</span>
+        <app-polvo-dorado [densidad]="14" />
+        <div class="halo"></div>
+        <div class="logo">
+          <img [src]="logo" alt="" />
+          <span class="reflejo" [style.mask-image]="'url(' + logo + ')'" [style.-webkit-mask-image]="'url(' + logo + ')'"></span>
+        </div>
+        <span class="linea"></span>
       </div>
     }
   `,
@@ -33,82 +37,95 @@ const CLAVE = 'faraon-intro-vista';
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 28px;
       background: radial-gradient(circle at 50% 45%, #3A2616 0%, var(--espresso-2) 65%);
       cursor: pointer;
-      transition: opacity 0.7s ease, visibility 0.7s ease;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
     }
     .saliendo { opacity: 0; visibility: hidden; }
-    .piramide { width: min(220px, 50vw); overflow: visible; }
-    .trazo {
-      stroke: var(--dorado);
-      stroke-width: 1.6;
-      stroke-linejoin: round;
-      stroke-dasharray: 420;
-      stroke-dashoffset: 420;
-      animation: dibujar 1.3s ease forwards;
-    }
-    .trazo--interior {
-      stroke-width: 0.9;
-      opacity: 0.6;
-      animation-delay: 0.6s;
-    }
-    .sol {
-      fill: var(--dorado);
+
+    /* Resplandor dorado detrás del logo */
+    .halo {
+      position: absolute;
+      width: min(720px, 90vw);
+      aspect-ratio: 2 / 1;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(247, 212, 142, 0.22) 0%, transparent 65%);
       opacity: 0;
-      filter: drop-shadow(0 0 12px rgba(247, 212, 142, 0.9));
-      animation: amanecer 1s ease 1.1s forwards;
+      animation: halo 2.6s ease 0.4s forwards;
     }
-    .nombre {
-      font-family: var(--font-serif);
-      font-size: clamp(44px, 9vw, 72px);
-      font-weight: 600;
-      line-height: 1;
-      color: var(--dorado);
-      opacity: 0;
-      letter-spacing: 0.3em;
-      animation: aparecer 1s ease 1.3s forwards;
+
+    .logo {
+      position: relative;
+      width: min(520px, 78vw);
+      /* Se descubre de izquierda a derecha, como arena que se aparta */
+      clip-path: inset(0 100% 0 0);
+      filter: blur(6px);
+      animation: descubrir 1.5s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards;
     }
-    .sub {
-      font-size: 12px;
-      letter-spacing: 0.5em;
-      text-transform: uppercase;
-      color: var(--texto-claro);
-      opacity: 0;
-      animation: aparecer 1s ease 1.6s forwards;
+    .logo img { display: block; width: 100%; height: auto; }
+
+    /* Reflejo de luz que recorre solo la forma del logo */
+    .reflejo {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 35%, rgba(255, 246, 221, 0.95) 50%, transparent 65%);
+      background-size: 250% 100%;
+      background-position: 120% 0;
+      -webkit-mask-size: 100% 100%;
+      mask-size: 100% 100%;
+      animation: reflejo 1.2s ease 1.6s forwards;
     }
-    @keyframes dibujar { to { stroke-dashoffset: 0; } }
-    @keyframes amanecer {
-      from { opacity: 0; transform: translateY(14px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    /* Línea dorada que se abre bajo el logo */
+    .linea {
+      position: relative;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--dorado), transparent);
+      animation: linea 1s ease 1.4s forwards;
     }
-    @keyframes aparecer {
-      to { opacity: 1; letter-spacing: 0.08em; }
+
+    @keyframes descubrir {
+      to { clip-path: inset(0 0 0 0); filter: blur(0); }
+    }
+    @keyframes reflejo {
+      to { background-position: -20% 0; }
+    }
+    @keyframes halo {
+      50% { opacity: 1; transform: scale(1.05); }
+      to { opacity: 0.8; transform: scale(1); }
+    }
+    @keyframes linea {
+      to { width: min(260px, 50vw); }
     }
   `,
 })
 export class IntroFaraon {
+  protected readonly logo = LOGO;
   protected readonly estado = signal<'visible' | 'saliendo' | 'oculta'>('oculta');
 
   constructor() {
     afterNextRender(() => {
       let yaVista = false;
-      try {
-        yaVista = sessionStorage.getItem(CLAVE) === '1';
-        sessionStorage.setItem(CLAVE, '1');
-      } catch {
-        /* sin almacenamiento: se muestra igual */
+      if (EFECTOS.introUnaVezPorPestana) {
+        try {
+          yaVista = sessionStorage.getItem(CLAVE) === '1';
+          sessionStorage.setItem(CLAVE, '1');
+        } catch {
+          /* sin almacenamiento: se muestra igual */
+        }
       }
       if (yaVista || menosMovimiento()) return;
 
       this.estado.set('visible');
-      setTimeout(() => this.cerrar(), 2700);
+      setTimeout(() => this.cerrar(), 3200);
     });
   }
 
   protected cerrar(): void {
     if (this.estado() !== 'visible') return;
     this.estado.set('saliendo');
-    setTimeout(() => this.estado.set('oculta'), 700);
+    setTimeout(() => this.estado.set('oculta'), 800);
   }
 }

@@ -9,6 +9,13 @@
  */
 export const EFECTOS = {
   respetarMovimientoReducido: false,
+
+  /**
+   * introUnaVezPorPestana:
+   *   false → la intro con el logo sale cada vez que se abre o recarga la página.
+   *   true  → sale solo la primera vez en cada pestaña del navegador.
+   */
+  introUnaVezPorPestana: false,
 };
 
 /** true si hay que mostrar la web sin animaciones. */
